@@ -30,8 +30,16 @@ describe ActiveNull do
     specify { expect(Post.null.override).to eq 'I am an override.' }
   end
 
+  describe '.find' do
+    specify { expect { Test::TestModel.find(42) }.to raise_error(ActiveRecord::RecordNotFound) }
+  end
+
   describe '.find_by' do
     specify { expect(Test::TestModel.find_by(id: 42)).to be_instance_of(Test::NullTestModel) }
+  end
+
+  describe '.find_by!' do
+    specify { expect { Test::TestModel.find_by!(id: 42) }.to raise_error(ActiveRecord::RecordNotFound) }
   end
 
   describe 'a has many' do

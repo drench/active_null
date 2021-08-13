@@ -30,6 +30,11 @@ module ActiveNull
     super || null
   end
 
+  def find_by!(*args, &block)
+    result = super
+    result.nil? ? take! : result
+  end
+
   def null_associations
     self.reflect_on_all_associations.each do |relation|
       unless relation.collection?
